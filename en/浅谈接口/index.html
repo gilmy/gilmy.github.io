@@ -139,10 +139,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="http://yoursite-url/archive/">
+  <link rel="canonical" href="http://yoursite-url/en/浅谈接口/">
   <title>
     
-      Archives - love you three thousand times
+      浅谈接口 - love you three thousand times
     
   </title>
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -338,19 +338,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('img/header_img/archive_bg.jpg');
-      --intro-header-background-image-url-page: url('/img/header_img/archive_bg.jpg');
+      --intro-header-background-image-url-post: url('/img/header_img/lml_bg1.jpg');
+      --intro-header-background-image-url-page: url('//img/header_img/lml_bg1.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('img/header_img/archive_bg.jpg');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/lml_bg1.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/lml_bg1.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/img/header_img/archive_bg.jpg'); */
+       /*post*/
+        background-image: var(--intro-header-background-image-url-post);
+        /* background-image: url('/img/header_img/lml_bg1.jpg'); */
       
     }
 
@@ -372,10 +372,46 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>Archives</h1>
-            <!--<hr class="small">-->
-            <span class="subheading">Don&#39;t rush and never settle...... If it&#39;s meant to be, it will be......</span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#接口" title="接口">接口</a>
+              
+              <a class="tag" href="/tags/#默认方法" title="默认方法">默认方法</a>
+              
+              <a class="tag" href="/tags/#静态方法" title="静态方法">静态方法</a>
+              
+            </div>
+            <h1>浅谈接口</h1>
+            <h2 class="subheading">接口的默认方法与静态方法</h2>
+            <span class="meta">
+              Posted by viceroy on
+              2021-09-22
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">3</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">1.1k</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -416,250 +452,306 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+        <blockquote>
+<p>做学问如同熬粥, 熬粥用文火, 粥稠而浓香, 富流质感;</p>
+<p>做学问讲究循序渐进, 温故而知新, 只学而不温习, 则为学多而识浅 …</p>
+</blockquote>
+<h2 id="接口">接口</h2>
+<p>说到 Java 就不得不提到 <em><strong>封装</strong></em>、<em><strong>继承</strong></em>、<em><strong>多态</strong></em> 三大特性; 而谈到 <em><strong>多态</strong></em> 又绕不开 <strong>接口</strong> 和 <strong>抽象类</strong> 这个话题. 甚至在面试中这两位都是常客, 经常会有面试官问你 <strong>接口</strong> 和 <strong>抽象类</strong> 的区别. 这里可以先自己想一下区别有哪些 ?</p>
+<h2 id="Java-8-之前">Java 8 之前</h2>
+<p>暂时不管为什么标题要写 Java 8, 如果你在搜索引擎搜索 <em><strong>接口和抽象类的区别是什么</strong></em> 大概率的回答是如下表述的:</p>
+<blockquote>
+<ol>
+<li>接口中的方法默认是 <strong>public</strong> , <s>所有的方法在接口中不能有实现</s>, 而抽象类可以有非抽象的方法;</li>
+<li>接口中除了 <strong>static</strong> 、 <strong>final</strong> 变量, 不能有其他变量, 而抽象类中则不一定;</li>
+<li>⼀个类可以实现多个接⼝, 但只能实现⼀个抽象类; 接⼝⾃⼰本身可以通过 <strong>extends</strong> 关键字扩展多个接⼝;</li>
+<li>接⼝⽅法默认修饰符是 <strong>public</strong>, 抽象方法可以有 <strong>public</strong> 、 <strong>protected</strong> 这些修饰符;</li>
+<li>从设计层面来说, 抽象类是对类的抽象, 是一种模板设计; 而接口是对行为的抽象, 是一种行为的规范.</li>
+</ol>
+</blockquote>
+<p>如上回答在 Java 8 之前版本中没有任何问题, 但如果是对于 Java 8 及之后的版本来说的话, 就不太正确或者说是不太完善了…</p>
+<h2 id="Java-8">Java 8</h2>
+<p>在 Java 8 之前接口只能有两种东西, 即 <strong>常量变量和抽象方法</strong> , 在 Java 8 版本中引入了一些新特性, 即 <strong>默认方法和静态方法</strong></p>
+<h3 id="为什么要引入默认方法和静态方法">为什么要引入默认方法和静态方法</h3>
+<p>知其然, 还得知其所以然.</p>
+<ol>
+<li>先说说为什么要引入默认方法:<br>
+我们知道接口的作用主要是定义该类型实例具有的功能, 也是为了支持运行时动态方法的解析. 所有在接口中定义的方法, 都必须由实现类来完成具体的实现(Java 8 之前).<br>
+<strong>问题来了</strong>, <span style="color:red;">假设我们要在一个老旧的系统之上修改一个接口, 拓展一个新的方法该怎么办 ?</span><br>
+在Java 8 以前, 如果接口新增了一个方法, 那么我们必须在所有的实现类中都去添加该方法的实现, 否则编译是无法通过的. 如果实现类比较多, 或者说实现类不可控(不在我们手上), 那就很麻烦了…<br>
+而 <strong>默认方法</strong> 的出现就是为了解决这个问题, 它提供了一个实现, 当没有显式地提供其他实现时就采用默认的这个实现, 这样添加新的方法就不会破坏现有的实现代码, 只需要更改我们需要更改的实现类重写这个新增方法即可.</li>
+<li>再说说静态方法:<br>
+这个引入的初衷就简单的多了, 可以帮助我们避免或者省去实现类中不太理想的实现, 例如在Map接口中有几个静态的comparingXXX接口.</li>
+</ol>
+<h2 id="Java-9">Java 9</h2>
+<p>在 Java 9 中接口中又引入了 <strong>私有方法和私有静态方法</strong><br>
+这个就好理解多了, 即然允许了具体的方法实现, 那么久而久之必然会产生重复代码, 这时候我们就需要提高代码的重用、减少重复代码, 那么私有方法的重现也就是必然的了.</p>
+<h2 id="总结">总结</h2>
+<p>回顾上面的面试题, 我们该这样来回答</p>
+<blockquote>
+<ol>
+<li>接口中的方法默认是 <strong>public</strong> 还有 <strong>default</strong> 、 <strong>static</strong> 、 <strong>private</strong> 修饰符, 默认方法和静态方法在接口中实现, 默认方法可以被实现类重写, 静态方法不能被重写; 而抽象类可以有非抽象的方法;</li>
+<li>接口中除了 <strong>static</strong> 、 <strong>final</strong> 变量, 不能有其他变量, 而抽象类中则不一定;</li>
+<li>⼀个类可以实现多个接⼝, 但只能实现⼀个抽象类; 接⼝⾃⼰本身可以通过 <strong>extends</strong> 关键字扩展多个接⼝;</li>
+<li>接⼝⽅法默认修饰符是 <strong>public</strong>, 抽象方法可以有 <strong>public</strong> 、 <strong>protected</strong> 这些修饰符;</li>
+<li>从设计层面来说, 抽象类是对类的抽象, 是一种模板设计; 而接口是对行为的抽象, 是一种行为的规范.</li>
+</ol>
+</blockquote>
+
+
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
+          
+          
+          <li class="next">
+            <a href="/cn/Hexo-Theme-LiveMyLife/" data-toggle="tooltip" data-placement="top" title="Hexo-Theme-LiveMyLife">Next Post &rarr;</a>
+          </li>
+          
+        </ul>
+
+        
+        <!-- tip start -->
+        <!-- tip -->
+<!-- tip start -->
+<div class="tip">
+  <p>
+    
+      If you like this blog or find it useful for you, you are welcome to comment on it. You are also welcome to share this blog, so that more people can participate in it. If the images used in the blog infringe your copyright, please contact the author to delete them. Thank you !
+    
+  </p>
+</div>
+<!-- tip end -->
+
+        <!-- tip end -->
+        
+
+        
+        <!-- Sharing Srtart -->
+        <!-- Social Social Share Post -->
+<!-- Docs:https://github.com/overtrue/share.js -->
+
+<div class="social-share" data-initialized="true" data-disabled="tencent ,douban ,qzone ,linkedin ,facebook ,google ,diandian" data-wechat-qrcode-helper="" align="center">
+  <ul class="list-inline text-center social-share-ul">
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon icon-twitter">
+        <i class="fa fa-twitter fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a class="social-share-icon icon-wechat">
+        <i class="fa fa-weixin fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon icon-weibo">
+        <i class="fa fa-weibo fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon icon-qq">
+        <i class="fa fa-qq fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon" href="mailto:?subject=浅谈接口&body=Hi,I found this website and thought you might like it http://yoursite-url/en/浅谈接口/">
+        <i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- css & js -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css"> -->
+<script defer="defer" async="true" src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+        <!-- Sharing End -->
+        
+        <hr>
+
+        <!-- comments start -->
+        <!-- 1. gitalk comment -->
+
+  <!-- gitalk start -->
+  <!-- Docs:https://github.com/gitalk/gitalk/blob/master/readme-cn.md -->
+
+  <div id="gitalk-container"></div>
+
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.js"></script> -->
+    <script src="/js/comment/gitalk.js"></script>
+  
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: '',
+      id: 'Wed Sep 22 2021 19:24:32 GMT+0800', // Ensure uniqueness and length less than 50
+      distractionFreeMode: false, // Facebook-like distraction free mode
+      perPage: 10,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      language: 'en',
+      proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+    });
+    gitalk.render('gitalk-container');
+
+    var gtFolded = () => {
+      setTimeout(function () {
+        let markdownBody = document.getElementsByClassName("markdown-body");
+        let list = Array.from(markdownBody);
+        list.forEach(item => {
+          if (item.clientHeight > 250) {
+            item.classList.add('gt-comment-body-folded');
+            item.style.maxHeight = '250px';
+            item.title = 'Click to Expand';
+            item.onclick = function () {
+              item.classList.remove('gt-comment-body-folded');
+              item.style.maxHeight = '';
+              item.title = '';
+              item.onclick = null;
+            };
+          }
+        })
+      }, 800);
+    }
+  </script>
+
+  <!-- gitalk end -->
+
+
+<!-- 2. gitment comment -->
+
+
+<!-- 3. disqus comment -->
+
+
+        <!-- comments end -->
+        <hr>
+
+      </div>
+
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">接口</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java-8-%E4%B9%8B%E5%89%8D"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Java 8 之前</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java-8"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Java 8</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%95%E5%85%A5%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">为什么要引入默认方法和静态方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java-9"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Java 9</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">总结</span></a></li></ol>
+        
+        </div>
+      </aside>
     
 
-    <!-- USE SIDEBAR -->
-    <!-- Post Container -->
-    <div class="
+
+
+      <!-- Sidebar Container -->
+      <div class="
                 col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
-      <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
-
-      
-
-      <!-- 归档列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2021">
-          <span class="tag-text">2021</span>
-        </span>
-        <ul>
-          
-          <li>
-            09-22
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/en/浅谈接口/" style="color: #0085a1">
-              <span>
-                浅谈接口
-                
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2020">
-          <span class="tag-text">2020</span>
-        </span>
-        <ul>
-          
-          <li>
-            04-17
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/Hexo-Theme-LiveMyLife/" style="color: #0085a1">
-              <span>
-                Hexo-Theme-LiveMyLife
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-      
-    </div>
-  </div>
-</div>
-
-
-      <!-- 如果开启评论功能 -->
-      
-      <hr>
-
-      
-
-      
-      
-    </div>
-
-    <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Visitors -->
-<h5><a href="/">VISITORS</a></h5>
-
-<div class="widget">
-  <span>
-    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-  </span>
-  <br />
-  <span>
-    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-  </span>
-</div>
-
-
-        <hr>
-    
         <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">FEATURED TAGS</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#接口" title="接口">接口</a>
+            
+            <a class="tag" href="/tags/#默认方法" title="默认方法">默认方法</a>
+            
+            <a class="tag" href="/tags/#静态方法" title="静态方法">静态方法</a>
+            
+          </div>
+        </section>
+        
 
-<section>
-  <h5><a href="/tags/">FEATURED TAGS</a></h5>
-  <div class="tags">
-    
-    
-    <a href="/tags/#Hexo-Theme-LiveMyLife" title="Hexo-Theme-LiveMyLife" rel="1">Hexo-Theme-LiveMyLife</a>
-    
-    
-    
-    <a href="/tags/#接口" title="接口" rel="1">接口</a>
-    
-    
-    
-    <a href="/tags/#默认方法" title="默认方法" rel="1">默认方法</a>
-    
-    
-    
-    <a href="/tags/#静态方法" title="静态方法" rel="1">静态方法</a>
-    
-    
-  </div>
-</section>
-
-
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-  <h5><a href="/about/">ABOUT ME</a></h5>
-  <div class="short-about">
-
-    
-    <img id="avatar_pic" src="/img/avatar/cat.png" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
-    
-
-    
-    <p>On the way to the future, everyone is a lone traveler...</p>
-    
-
-    <!-- SNS Link -->
-    <ul class="list-inline">
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-    </ul>
-  </div>
-</section>
-
-        <hr>
-    
-        <!-- RECENT POSTS -->
-
-<h5><a href="/">RECENT POSTS</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="../en/%E6%B5%85%E8%B0%88%E6%8E%A5%E5%8F%A3/">
-      <li>浅谈接口</li>
-    </a>
-    
-    <a href="../cn/Hexo-Theme-LiveMyLife/">
-      <li>Hexo-Theme-LiveMyLife</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
         <!-- Friends Blog -->
-
-<h5><a href="/">FRIENDS</a></h5>
-<ul class="list-inline">
-  
-  <li><a href="https://blog.yurunsoft.com/" target="_blank">宇润</a></li>
-  
-  <li><a href="https://hexo.io/" target="_blank">Hexo</a></li>
-  
-</ul>
-
-
+        
         <hr>
-    
-        <!-- Archives -->
+        <h5>FRIENDS</h5>
+        <ul class="list-inline">
 
-<h5><a href="/archives/">archives</a></h5>
-<div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2021/09/">September 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li></ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Categories -->
-
-<h5><a href="/categories/">categories</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="/categories/#Hexo-Theme-LiveMyLife">
-      <li>Hexo-Theme-LiveMyLife</li>
-    </a>
-    
-    <a href="/categories/#Java">
-      <li>Java</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-</div>
-
-
-    
+          
+          <li>
+            <a href="https://blog.yurunsoft.com/" target="_blank">宇润</a>
+          </li>
+          
+          <li>
+            <a href="https://hexo.io/" target="_blank">Hexo</a>
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
   </div>
-</div>
+</article>
+
+
+
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
+
+<!-- anchorjs end -->
+
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->
