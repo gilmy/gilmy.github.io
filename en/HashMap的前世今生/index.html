@@ -139,10 +139,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="http://yoursite-url/archives/2021/">
+  <link rel="canonical" href="http://yoursite-url/en/HashMap的前世今生/">
   <title>
     
-      love you three thousand times
+      HashMap的前世今生 - love you three thousand times
     
   </title>
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -338,19 +338,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('');
-      --intro-header-background-image-url-page: url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: url('/img/header_img/lml_bg2.jpg');
+      --intro-header-background-image-url-page: url('//img/header_img/lml_bg2.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/lml_bg2.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/lml_bg2.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/img/header_img/archive_bg2.jpg'); */
+       /*post*/
+        background-image: var(--intro-header-background-image-url-post);
+        /* background-image: url('/img/header_img/lml_bg2.jpg'); */
       
     }
 
@@ -372,10 +372,44 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>Lone traveler</h1>
-            <!--<hr class="small">-->
-            <span class="subheading">Sometimes ever, sometimes never</span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#集合" title="集合">集合</a>
+              
+              <a class="tag" href="/tags/#HashMap" title="HashMap">HashMap</a>
+              
+            </div>
+            <h1>HashMap的前世今生</h1>
+            <h2 class="subheading">了解HashMap看这一篇就够了</h2>
+            <span class="meta">
+              Posted by viceroy on
+              2021-09-25
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">2</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">774</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -416,267 +450,315 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+        <blockquote>
+<p>我们总是在一种生活里向往另一种生活，然后错过现在的生活，顺带也失去了向往的生活。</p>
+</blockquote>
+<h2 id="HashMap-的底层实现">HashMap 的底层实现</h2>
+<h3 id="JDK-8-之前">JDK 8 之前</h3>
+<p>底层是 <strong>数组和链表</strong> 的结合也称作 <strong>链表散列</strong> ; <strong>数组</strong> 是主体, <strong>链表</strong> 是为了解决哈希冲突.<br>
+即类似于下面这样的结构<br>
+<img src="init.png" alt="init"><br>
+在这之前有三个参数要介绍一下</p>
+<ol>
+<li><strong><em>DEFAULT_INITIAL_CAPACITY</em></strong> 默认初始容量(1 &lt;&lt; 4)</li>
+<li><strong><em>MAXIMUM_CAPACITY</em></strong> 最大扩容数量(1 &lt;&lt; 30)</li>
+<li><strong><em>DEFAULT_LOAD_FACTOR</em></strong> 负载因子(0.75)</li>
+</ol>
+<p><strong>它的工作原理是这样的:</strong></p>
+<h4 id="map-put-k-v-实现原理"><strong>map.put(k,v)实现原理</strong></h4>
+<ol>
+<li>调用 <strong>put(k, v)</strong> 方法添加元素时, 首先调用 <strong>k</strong> 的 <strong>hascode()</strong> 方法得到 <strong>hash</strong> 值, 同时将 <strong>k</strong>,<strong>v</strong> 封装到 <strong>Node</strong> 对象中.</li>
+<li>通过 <strong>hash</strong> 算法, 将上面得到的 <strong>hash</strong> 值转换成数组下标.</li>
+<li>如果数组是空的或是超过阈值, 需要调用 <strong>resize()</strong> 方法.</li>
+<li>如果下标位置上没有任何元素, 那么就把上面创建的 <strong>Node</strong> 对象添加到该位置.</li>
+<li>如果下标位置上有链表, 那么需要把 <strong>k</strong> 和链表上的每个节点的 <strong>k</strong> 进行 <strong>equals</strong> 比较.</li>
+<li>如果当前 <strong>k</strong> 已存在, 则覆盖 <strong>v</strong>, 否则挂载到链表末尾.</li>
+</ol>
+<h4 id="map-get-k-实现原理"><strong>map.get(k)实现原理</strong></h4>
+<ol>
+<li>调用 <strong>get(k)</strong> 方法获取元素时, 首先还是调用 <strong>k</strong> 的 <strong>hascode()</strong> 方法得到 <strong>hash</strong> 值.</li>
+<li>通过 <strong>hash</strong> 算法, 将上面得到的 <strong>hash</strong> 值转换成数组下标.</li>
+<li>如果数组是空的或是数组对应位置上没有元素存在, 直接返回 <strong>null</strong>.</li>
+<li>如果数组对应下标位上有链表存在, 那么需要把 <strong>k</strong> 和链表上的每个节点的 <strong>k</strong> 进行 <strong>equals</strong> 比较.</li>
+<li>找到则返回对应节点上的 <strong>v</strong>, 否则返回 <strong>null</strong>.</li>
+</ol>
+<h4 id="扩容"><strong>扩容</strong></h4>
+<p>在容量超过负载因子所定义的容量之后, 就会进行扩容.</p>
+<ol>
+<li>判断当前数组大小是否已经达到最大.</li>
+<li>如果已经达到最大容量( <strong>MAXIMUM_CAPACITY</strong> ), 则修改阈值为 <strong>int</strong> 的最大值, 之后便不再扩容.</li>
+<li>如果未达到最大容量( <strong>MAXIMUM_CAPACITY</strong> ), 则创建一个新的数组, 其容量为当前的 <strong>两倍</strong>.</li>
+<li>最后将原来的对象存入新的数组中.</li>
+</ol>
+<h3 id="JDK-8-之后">JDK 8 之后</h3>
+<p>由于链表过长, 会严重影响到 <strong>HashMap</strong> 的性能, 所以在 <strong>JDK 8</strong> 优化了数据结构, 引入了红黑树以减少搜索时间.<br>
+即类似于下面这样的结构<br>
+<img src="init1.png" alt="init1"><br>
+相关参数</p>
+<ol>
+<li><strong><em>TREEIFY_THRESHOLD</em></strong> 红黑树转换的阈值(8)</li>
+<li><strong><em>UNTREEIFY_THRESHOLD</em></strong> 链表转换的阈值(6)</li>
+<li><strong><em>MIN_TREEIFY_CAPACITY</em></strong> 红黑树转换的最小数组容量(64)</li>
+</ol>
+<p>也就是说当链表长度超过 <strong>8</strong> 且数据总量超过 <strong>64</strong> 才会转红黑树, 否则会选择先进⾏数组扩容，⽽不是转换为红⿊树.</p>
+<h3 id="为什么建议-HashMap-的-key-使用-String">为什么建议 <strong>HashMap</strong> 的 <strong>key</strong> 使用 <strong>String</strong></h3>
+<ol>
+<li>首先字符串是不可变的, 所以在它创建的时候 <strong>hashcode</strong> 就被缓存了, 不需要重新计算.</li>
+<li>获取对象的时候需要用到 <strong>equals()</strong> 和 <strong>hashCode()</strong> 方法, 而 <strong>String</strong> 已经很规范的重写了这个两个方法.</li>
+</ol>
+
+
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
+          
+          
+          <li class="next">
+            <a href="/en/浅谈接口/" data-toggle="tooltip" data-placement="top" title="浅谈接口">Next Post &rarr;</a>
+          </li>
+          
+        </ul>
+
+        
+        <!-- tip start -->
+        <!-- tip -->
+<!-- tip start -->
+<div class="tip">
+  <p>
+    
+      If you like this blog or find it useful for you, you are welcome to comment on it. You are also welcome to share this blog, so that more people can participate in it. If the images used in the blog infringe your copyright, please contact the author to delete them. Thank you !
+    
+  </p>
+</div>
+<!-- tip end -->
+
+        <!-- tip end -->
+        
+
+        
+        <!-- Sharing Srtart -->
+        <!-- Social Social Share Post -->
+<!-- Docs:https://github.com/overtrue/share.js -->
+
+<div class="social-share" data-initialized="true" data-disabled="tencent ,douban ,qzone ,linkedin ,facebook ,google ,diandian" data-wechat-qrcode-helper="" align="center">
+  <ul class="list-inline text-center social-share-ul">
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon icon-twitter">
+        <i class="fa fa-twitter fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a class="social-share-icon icon-wechat">
+        <i class="fa fa-weixin fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon icon-weibo">
+        <i class="fa fa-weibo fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon icon-qq">
+        <i class="fa fa-qq fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="social-share-li">
+      <a target="_blank" class="social-share-icon" href="mailto:?subject=HashMap的前世今生&body=Hi,I found this website and thought you might like it http://yoursite-url/en/HashMap的前世今生/">
+        <i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- css & js -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css"> -->
+<script defer="defer" async="true" src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+        <!-- Sharing End -->
+        
+        <hr>
+
+        <!-- comments start -->
+        <!-- 1. gitalk comment -->
+
+  <!-- gitalk start -->
+  <!-- Docs:https://github.com/gitalk/gitalk/blob/master/readme-cn.md -->
+
+  <div id="gitalk-container"></div>
+
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.js"></script> -->
+    <script src="/js/comment/gitalk.js"></script>
+  
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: '',
+      id: 'Sat Sep 25 2021 13:28:13 GMT+0800', // Ensure uniqueness and length less than 50
+      distractionFreeMode: false, // Facebook-like distraction free mode
+      perPage: 10,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      language: 'en',
+      proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+    });
+    gitalk.render('gitalk-container');
+
+    var gtFolded = () => {
+      setTimeout(function () {
+        let markdownBody = document.getElementsByClassName("markdown-body");
+        let list = Array.from(markdownBody);
+        list.forEach(item => {
+          if (item.clientHeight > 250) {
+            item.classList.add('gt-comment-body-folded');
+            item.style.maxHeight = '250px';
+            item.title = 'Click to Expand';
+            item.onclick = function () {
+              item.classList.remove('gt-comment-body-folded');
+              item.style.maxHeight = '';
+              item.title = '';
+              item.onclick = null;
+            };
+          }
+        })
+      }, 800);
+    }
+  </script>
+
+  <!-- gitalk end -->
+
+
+<!-- 2. gitment comment -->
+
+
+<!-- 3. disqus comment -->
+
+
+        <!-- comments end -->
+        <hr>
+
+      </div>
+
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HashMap-%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">HashMap 的底层实现</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#JDK-8-%E4%B9%8B%E5%89%8D"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">JDK 8 之前</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#map-put-k-v-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">map.put(k,v)实现原理</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#map-get-k-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">map.get(k)实现原理</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E6%89%A9%E5%AE%B9"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">扩容</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#JDK-8-%E4%B9%8B%E5%90%8E"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">JDK 8 之后</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE-HashMap-%E7%9A%84-key-%E4%BD%BF%E7%94%A8-String"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">为什么建议 HashMap 的 key 使用 String</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
     
 
-    <!-- USE SIDEBAR -->
-    <!-- Post Container -->
-    <div class="
+
+
+      <!-- Sidebar Container -->
+      <div class="
                 col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
-      <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
-
-      
-
-      <!-- 归档列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2021">
-          <span class="tag-text">2021</span>
-        </span>
-        <ul>
-          
-          <li>
-            09-25
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/en/HashMap的前世今生/" style="color: #0085a1">
-              <span>
-                HashMap的前世今生
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            09-22
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/en/浅谈接口/" style="color: #0085a1">
-              <span>
-                浅谈接口
-                
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2020">
-          <span class="tag-text">2020</span>
-        </span>
-        <ul>
-          
-          <li>
-            04-17
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/Hexo-Theme-LiveMyLife/" style="color: #0085a1">
-              <span>
-                Hexo-Theme-LiveMyLife
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-      
-    </div>
-  </div>
-</div>
-
-
-      <!-- 如果开启评论功能 -->
-      
-    </div>
-
-    <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Visitors -->
-<h5><a href="/">VISITORS</a></h5>
-
-<div class="widget">
-  <span>
-    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-  </span>
-  <br />
-  <span>
-    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-  </span>
-</div>
-
-
-        <hr>
-    
         <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">FEATURED TAGS</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#集合" title="集合">集合</a>
+            
+            <a class="tag" href="/tags/#HashMap" title="HashMap">HashMap</a>
+            
+          </div>
+        </section>
+        
 
-<section>
-  <h5><a href="/tags/">FEATURED TAGS</a></h5>
-  <div class="tags">
-    
-    
-    <a href="/tags/#Hexo-Theme-LiveMyLife" title="Hexo-Theme-LiveMyLife" rel="1">Hexo-Theme-LiveMyLife</a>
-    
-    
-    
-    <a href="/tags/#接口" title="接口" rel="1">接口</a>
-    
-    
-    
-    <a href="/tags/#默认方法" title="默认方法" rel="1">默认方法</a>
-    
-    
-    
-    <a href="/tags/#静态方法" title="静态方法" rel="1">静态方法</a>
-    
-    
-    
-    <a href="/tags/#集合" title="集合" rel="1">集合</a>
-    
-    
-    
-    <a href="/tags/#HashMap" title="HashMap" rel="1">HashMap</a>
-    
-    
-  </div>
-</section>
-
-
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-  <h5><a href="/about/">ABOUT ME</a></h5>
-  <div class="short-about">
-
-    
-    <img id="avatar_pic" src="/img/avatar/cat.png" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
-    
-
-    
-    <p>On the way to the future, everyone is a lone traveler...</p>
-    
-
-    <!-- SNS Link -->
-    <ul class="list-inline">
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-    </ul>
-  </div>
-</section>
-
-        <hr>
-    
-        <!-- RECENT POSTS -->
-
-<h5><a href="/">RECENT POSTS</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="../../en/HashMap%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-      <li>HashMap的前世今生</li>
-    </a>
-    
-    <a href="../../en/%E6%B5%85%E8%B0%88%E6%8E%A5%E5%8F%A3/">
-      <li>浅谈接口</li>
-    </a>
-    
-    <a href="../../cn/Hexo-Theme-LiveMyLife/">
-      <li>Hexo-Theme-LiveMyLife</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
         <!-- Friends Blog -->
-
-<h5><a href="/">FRIENDS</a></h5>
-<ul class="list-inline">
-  
-  <li><a href="https://blog.yurunsoft.com/" target="_blank">宇润</a></li>
-  
-  <li><a href="https://hexo.io/" target="_blank">Hexo</a></li>
-  
-</ul>
-
-
+        
         <hr>
-    
-        <!-- Archives -->
+        <h5>FRIENDS</h5>
+        <ul class="list-inline">
 
-<h5><a href="/archives/">archives</a></h5>
-<div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="09/">September 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../2020/04/">April 2020</a><span class="archive-list-count">1</span></li></ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Categories -->
-
-<h5><a href="/categories/">categories</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="/categories/#Hexo-Theme-LiveMyLife">
-      <li>Hexo-Theme-LiveMyLife</li>
-    </a>
-    
-    <a href="/categories/#Java">
-      <li>Java</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-</div>
-
-
-    
+          
+          <li>
+            <a href="https://blog.yurunsoft.com/" target="_blank">宇润</a>
+          </li>
+          
+          <li>
+            <a href="https://hexo.io/" target="_blank">Hexo</a>
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
   </div>
-</div>
+</article>
+
+
+
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
+
+<!-- anchorjs end -->
+
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->
